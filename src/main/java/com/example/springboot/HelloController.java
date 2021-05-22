@@ -37,7 +37,7 @@ public class HelloController {
 	@ResponseBody 
 	@RequestMapping(value = "/SendHistoryPlay/{historyPlay}")
 	public String getSearchResultViaAjax(@PathVariable(value = "historyPlay") String historyPlay) { 
-		Log.info("getSearchResultViaAjax");
+		// Log.info("getSearchResultViaAjax");
 		return String.valueOf(historyPlay); 
 	}
 	
