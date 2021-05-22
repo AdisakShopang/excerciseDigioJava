@@ -20,13 +20,13 @@ public class RelationalDataAccessApplication implements CommandLineRunner {
   private static final Logger log = LoggerFactory.getLogger(RelationalDataAccessApplication.class);
   public static List<PlayedHistory> rtnDataFromQuery;
 
-  public static void main(String args[]) {
-    // SpringApplication.run(RelationalDataAccessApplication.class, args);
-    SpringApplication app = new SpringApplication(RelationalDataAccessApplication.class);
-        app.setDefaultProperties(Collections
-          .singletonMap("server.port", "8083"));
-        app.run(args);
-  }
+  // public static void main(String args[]) {
+  //   // SpringApplication.run(RelationalDataAccessApplication.class, args);
+  //   SpringApplication app = new SpringApplication(RelationalDataAccessApplication.class);
+  //       app.setDefaultProperties(Collections
+  //         .singletonMap("server.port", "8083"));
+  //       app.run(args);
+  // }
 
   @Autowired
   JdbcTemplate jdbcTemplate;
