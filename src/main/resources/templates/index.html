@@ -15,8 +15,7 @@
       <header>Tic Tac Toe</header>
       <div class="content">
 
-        <p th:text="'Hello, ' + ${name} + '!'" />
-        <p th:text="'historyPlayed, ' + ${historyPlayed} + '!'" />
+        <!-- <p th:text="'Hello, ' + ${name} + '!'" /> -->
         
         <div class="title" style="text-align: center;">Fill board size.
           <input type="number" id="boardSize" name="boardSize" value="3" style="text-align: center; font-size: 22px; width: 20%;">
@@ -36,7 +35,9 @@
           <button class="history-board-btn" onclick="renderHistoryBoard()">History Board</button>
           <button class="history-board-clear" onclick="clearHistoryBoard()">History Clear</button>
         </div>
-        <div class="history-board" ></div>
+        <div class="history-board" >
+          <!-- <p th:text="'historyPlayed, ' + ${historyPlayed} + '!'" /> -->
+        </div>
 
       </div>
     </div> 

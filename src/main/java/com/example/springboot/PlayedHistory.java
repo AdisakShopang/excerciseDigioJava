@@ -1,5 +1,7 @@
 package com.example.springboot;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,9 +9,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayedHistory {
     public Long id;
-    public String playedDateTime, playedRecord;
+    public String playedDateTime;
+    public String playedRecord;
 
     public PlayedHistory(Long id, String playedDateTime, String playedRecord) {
         this.id = id;

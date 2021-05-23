@@ -18,6 +18,7 @@ var loadedData;
 var winCondition = [];
 var boardSize = 0;
 var isOver = false;
+var historyPlayRecord = [];
 
 window.onload = ()=>{ //once window loaded
 
@@ -144,7 +145,7 @@ function clickedBox(element){
     if(isOver == false){
         if(players.classList.contains("player")){
             // collect history
-            historyPlay.push("Player O -> " + element.getAttribute("coor"));
+            historyPlay.push("Player_O_" + element.getAttribute("coor"));
             playerMove.push(element.getAttribute("coor"));
     
             playerSign = "O"; //if player choose (O) then change playerSign to O
@@ -153,7 +154,7 @@ function clickedBox(element){
             element.setAttribute("id", playerSign); //set id attribute in span/box with player choosen sign
         }else{
             // collect history
-            historyPlay.push("Player X -> " + element.getAttribute("coor"));
+            historyPlay.push("Player_X_" + element.getAttribute("coor"));
             playerMove.push(element.getAttribute("coor"));
     
             element.innerHTML = `<i class="${playerXIcon}"></i>`; //adding cross icon tag inside user clicked element/box
@@ -185,7 +186,7 @@ function bot(){
         if(array.length > 0){ //if array length is greater than 0
             if(players.classList.contains("player")){ 
                 // collect history
-                historyPlay.push("Bot X -> " + allBox[randomBox].getAttribute("coor"));
+                historyPlay.push("Bot_X_" + allBox[randomBox].getAttribute("coor"));
                 botMove.push(allBox[randomBox].getAttribute("coor"));
 
                 playerSign = "X"; //if player has chosen O then bot will X
@@ -194,7 +195,7 @@ function bot(){
                 allBox[randomBox].setAttribute("id", playerSign); //set id attribute in span/box with player choosen sign
             }else{
                 // collect history
-                historyPlay.push("Bot O -> " + allBox[randomBox].getAttribute("coor"));
+                historyPlay.push("Bot_O_" + allBox[randomBox].getAttribute("coor"));
                 botMove.push(allBox[randomBox].getAttribute("coor"));
 
                 allBox[randomBox].innerHTML = `<i class="${playerOIcon}"></i>`; //adding circle icon tag inside bot selected element
@@ -290,7 +291,7 @@ function saveToDB(){
 
     // (B) STORE IN LOCAL STORAGE
     // Note: JSON encode
-    localStorage.setItem("History:"+dateTime, JSON.stringify(historyPlay));
+    // localStorage.setItem("History:"+dateTime, JSON.stringify(historyPlay));
     
     // (C) RETRIEVE
     // Note: JSON decode
@@ -299,19 +300,42 @@ function saveToDB(){
     // console.log('new loadedData'+loadedData);
 
     // pass variable to Spring boot // http://localhost:8080/historyPlayed?paramName=someValue
+    // var HistoryData = {
+    //     "id":"0",
+    //     "playedDateTime":"Test1",
+    //     "playedRecord":"Test2"
+    // };
+    // console.log('HistoryData : ' + JSON.stringify(HistoryData));
+    console.log('historyPlay : ' + JSON.stringify(historyPlay));
+    
     $.ajax({
         type : "POST",
-        url : "/SendHistoryPlay",
-        data : {historyPlay:historyPlay},
+        contentType : 'application/json; charset=utf-8',
+        dataType : 'text',
+        url : "/addHistoryData",
+        // data : 'test string',
+        // data : JSON.stringify(HistoryData),
+        data : JSON.stringify(historyPlay),
         timeout : 100000,
-        success : function(historyPlay) {
-            console.log("SUCCESS: ", historyPlay);
-            alert(historyPlay);
-            alert(response);   
+        success : function(response) {
+            console.log("SUCCESS: ", JSON.stringify(response));
+            var obj = JSON.parse(response);
+            // alert(JSON.stringify(response));
+            // console.log(obj.id);
+            // console.log(obj.playedDateTime);
+            // console.log(obj.playedRecord);
+            // console.log(obj);
+            // console.log(obj[0].record);
+            // console.log(obj[0].datetime);
+            for(var index = 0 ; index < obj.length ; index++){
+                historyPlayRecord.push(obj[index]);
+            }
+            console.log('historyPlayRecord res:' + JSON.stringify(historyPlayRecord));
+            localStorage.setItem("tempHistory", JSON.stringify(historyPlayRecord));
         },
         error : function(e) {
             console.log("ERROR: ", e);
-            alert(e);
+            // alert(JSON.stringify(e));
         },
         done : function(e) {
             console.log("DONE");
@@ -340,22 +364,54 @@ function saveToDB(){
 
 function renderHistoryBoard(){
     let formattedData = '';
-    let listKey = [];
+    // let listKey = [];
 
-    for(let i = 0; i < localStorage.length; i++){
-        listKey.push(localStorage.key(i));
+    // for(let i = 0; i < localStorage.length; i++){
+    //     listKey.push(localStorage.key(i));
+    // }
+    // console.log(listKey);
+    // listKey.sort();
+    // console.log(listKey);
+
+    // if(listKey.length > 0){
+    //     for (let j = 0; j < localStorage.length; j++) {
+    //         let tempHeadder;
+    //         let tempData;
+    
+    //         tempHeadder = listKey[j];
+    //         tempData = JSON.parse(localStorage.getItem(tempHeadder));
+            
+    //         formattedData += tempHeadder + "<br>"
+    //         tempData.forEach((data,index) => {
+    //             formattedData += data + "<br>";
+    //         });
+    //         formattedData += "<br>";
+    //     }
+    //     // console.log(formattedData);
+        
+    //     // set data to div
+    //     historyBoard.innerHTML = formattedData;
+    // }else{
+    //     alert('No history record.');
+    // }
+
+    if(localStorage.getItem("tempHistory") != null){
+        historyPlayRecord = localStorage.getItem("tempHistory");
+        console.log("historyPlayRecord before : " + JSON.stringify(historyPlayRecord));
+        historyPlayRecord = JSON.parse(historyPlayRecord);
+        console.log("historyPlayRecord after: " + JSON.stringify(historyPlayRecord));
     }
-    console.log(listKey);
-    listKey.sort();
-    console.log(listKey);
-
-    if(listKey.length > 0){
-        for (let j = 0; j < localStorage.length; j++) {
-            let tempHeadder;
+    console.log("historyPlayRecord : " + historyPlayRecord);
+    
+    if(historyPlayRecord.length > 0 && historyPlayRecord != null){
+        for (let j = 0; j < historyPlayRecord.length; j++) {
+            let tempHeadder = "DateTime : ";
             let tempData;
     
-            tempHeadder = listKey[j];
-            tempData = JSON.parse(localStorage.getItem(tempHeadder));
+            tempHeadder += historyPlayRecord[j].datetime;
+            tempData = historyPlayRecord[j].record.split("//");
+            console.log("tempHeadder : " + JSON.stringify(tempHeadder));
+            console.log("tempData : " + JSON.stringify(tempData));
             
             formattedData += tempHeadder + "<br>"
             tempData.forEach((data,index) => {
@@ -376,6 +432,7 @@ function renderHistoryBoard(){
 function clearHistoryBoard(){
     localStorage.clear();
     historyBoard.innerHTML = '';
+    historyPlayRecord = [];
     alert("History clear.")
 }
 

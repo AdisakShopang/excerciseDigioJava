@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,13 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.SpringApplication;
 import java.util.Collections;
 
 @SpringBootApplication
 public class RelationalDataAccessApplication implements CommandLineRunner {
 
   private static final Logger log = LoggerFactory.getLogger(RelationalDataAccessApplication.class);
-  public static List<PlayedHistory> rtnDataFromQuery;
+  // public static List<PlayedHistory> rtnDataFromQuery;
 
   // public static void main(String args[]) {
   //   // SpringApplication.run(RelationalDataAccessApplication.class, args);
@@ -68,15 +68,15 @@ public class RelationalDataAccessApplication implements CommandLineRunner {
     log.info("result[0] : " + String.valueOf(result.get(0).playedDateTime));
     log.info("result[0] : " + String.valueOf(result.get(0).playedRecord));
 
-    rtnDataFromQuery = result;
-    log.info("rtnDataFromQuery : " + String.valueOf(rtnDataFromQuery));
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).id));
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).playedDateTime));
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).playedRecord));
+    // rtnDataFromQuery = result;
+    // log.info("rtnDataFromQuery : " + String.valueOf(rtnDataFromQuery));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).id));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).playedDateTime));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).playedRecord));
 
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getId()));
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getPlayedDateTime()));
-    log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getPlayedRecord()));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getId()));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getPlayedDateTime()));
+    // log.info("rtnDataFromQuery[0] : " + String.valueOf(rtnDataFromQuery.get(0).getPlayedRecord()));
 
   }
 }
