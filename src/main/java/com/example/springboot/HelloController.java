@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.springboot.classes.PlayedRecord;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;

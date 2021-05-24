@@ -1,7 +1,13 @@
-package com.example.springboot;
+package com.example.springboot.classes;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+@Service
+@EnableConfigurationProperties(PlayedRecord.class)
+@ConfigurationProperties("service")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayedRecord {
     public String record;
